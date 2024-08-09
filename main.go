@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"github.com/gigga1998/consoleReader/pkg/reader"
+	"github.com/gigga1998/consoleReader"
 )
 
 
