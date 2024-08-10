@@ -9,13 +9,11 @@ import (
 	"github.com/gigga1998/consoleReader"
 )
 
-
-var GAME_FIELD = [3][3]string  {
+var GAME_FIELD = [3][3]string{
 	{" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "},
 }
 var PLAYER_FIGURE string
 var GAME_MOVE int8 = 0
-
 
 func menu() {
 	fmt.Println("Выберите игровую фигуру.")
@@ -23,7 +21,6 @@ func menu() {
 	fmt.Println("* Введите O, если хотите играть за O.")
 	fmt.Println("* Введите EXIT, если хотите выйти.")
 }
-
 
 func showGameField() {
 	fmt.Printf("---|---|---\n")
@@ -35,7 +32,6 @@ func showGameField() {
 	fmt.Printf("---|---|---\n")
 }
 
-
 func showGameCoord() {
 	fmt.Println("---|---|---")
 	fmt.Println(" 1 | 2 | 3 ")
@@ -46,22 +42,20 @@ func showGameCoord() {
 	fmt.Println("---|---|---")
 }
 
-
-func peekFigure() int8{
+func peekFigure() int8 {
 	x := consoleReader.ReadString("Ваш ввод: ")
-	if strings.TrimRight(x, "\n") == "O"{
+	if strings.TrimRight(x, "\n") == "O" {
 		PLAYER_FIGURE = "O"
 		return 0
-	}else if strings.TrimRight(x, "\n") == "X"{
+	} else if strings.TrimRight(x, "\n") == "X" {
 		PLAYER_FIGURE = "X"
 		return 0
-	}else if strings.TrimRight(x, "\n") == "EXIT"{
+	} else if strings.TrimRight(x, "\n") == "EXIT" {
 		return 1
 	}
 	fmt.Println("!!!Команда не найдена!!!")
 	return -1
 }
-
 
 func enter_coordinate() (int8, int8) {
 	choice := consoleReader.ReadString("Ваш ход. Введите координату(1-9): ")
@@ -90,7 +84,7 @@ func enter_coordinate() (int8, int8) {
 	return -1, -1
 }
 
-func check_the_winner() string{
+func check_the_winner() string {
 	var i int8
 	for i = 0; i < 3; i++ {
 		if GAME_FIELD[i][0] == GAME_FIELD[i][1] && GAME_FIELD[i][1] == GAME_FIELD[i][2] {
@@ -124,8 +118,7 @@ func check_the_winner() string{
 	return ""
 }
 
-
-func put_in_table(i int8, j int8) int8{
+func put_in_table(i int8, j int8) int8 {
 	if i == -1 && j == -1 {
 		return -1
 	} else if i == -1 && j == 0 {
@@ -135,9 +128,8 @@ func put_in_table(i int8, j int8) int8{
 	return 0
 }
 
-
 func changePlayer() {
-	if PLAYER_FIGURE == "X"{
+	if PLAYER_FIGURE == "X" {
 		PLAYER_FIGURE = "O"
 	} else if PLAYER_FIGURE == "O" {
 		PLAYER_FIGURE = "X"
@@ -146,22 +138,20 @@ func changePlayer() {
 	}
 }
 
-
 func main() {
 	menu()
 	var err_state int8
 	var state = true
-	for state{
+	for state {
 		err_state = peekFigure()
-		if err_state == 0{
+		if err_state == 0 {
 			state = false
 		}
-		if err_state == 1{
+		if err_state == 1 {
 			fmt.Println("Пока!")
 			os.Exit(0)
 		}
 	}
-
 
 	fmt.Println("Выберите клетку из набора координат 1-9:")
 	showGameCoord()
@@ -173,26 +163,26 @@ func main() {
 
 		if status == 1 {
 			os.Exit(0)
-		} else if status == -1{
+		} else if status == -1 {
 			fmt.Println("Такой команды нет!")
 			continue
 		} else if status == 0 {
 			showGameField()
 			winner = check_the_winner()
 		}
-		if winner == "X" || winner == "O"{
+		if winner == "X" || winner == "O" {
 			break
 		}
 		changePlayer()
 		GAME_MOVE += 1
-		if GAME_MOVE == 9{
+		if GAME_MOVE == 9 {
 			break
 		}
 	}
-	if GAME_MOVE == 9{
+	if GAME_MOVE == 9 {
 		fmt.Println("Ничья!")
 	} else {
-		fmt.Printf("Победил игорк %s\n", winner)	
+		fmt.Printf("Победил игорк %s\n", winner)
 	}
 	os.Exit(0)
 }
