@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
+
 	"github.com/gigga1998/consoleReader"
 )
 
@@ -12,6 +14,7 @@ var GAME_FIELD = [3][3]string  {
 	{" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "},
 }
 var PLAYER_FIGURE string
+var GAME_MOVE int8 = 0
 
 
 func menu() {
@@ -133,6 +136,17 @@ func put_in_table(i int8, j int8) int8{
 }
 
 
+func changePlayer() {
+	if PLAYER_FIGURE == "X"{
+		PLAYER_FIGURE = "O"
+	} else if PLAYER_FIGURE == "O" {
+		PLAYER_FIGURE = "X"
+	} else {
+		log.Fatal()
+	}
+}
+
+
 func main() {
 	menu()
 	var err_state int8
@@ -153,8 +167,10 @@ func main() {
 	showGameCoord()
 	var winner string
 	for true {
+		fmt.Println("Ходит игрок ", PLAYER_FIGURE)
 		var i, j = enter_coordinate()
 		var status = put_in_table(i, j)
+
 		if status == 1 {
 			os.Exit(0)
 		} else if status == -1{
@@ -167,7 +183,16 @@ func main() {
 		if winner == "X" || winner == "O"{
 			break
 		}
+		changePlayer()
+		GAME_MOVE += 1
+		if GAME_MOVE == 9{
+			break
+		}
 	}
-	fmt.Printf("Победил игорк %s\n", winner)
+	if GAME_MOVE == 9{
+		fmt.Println("Ничья!")
+	} else {
+		fmt.Printf("Победил игорк %s\n", winner)	
+	}
 	os.Exit(0)
 }
